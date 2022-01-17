@@ -3,8 +3,8 @@
         <form @submit="addTask">
             <input type="text" name="topic" v-model="topic" placeholder="Add Task topic">
             <input type="text" name="description" v-model="description" placeholder="Add description">
-            <input type="text" name="assignee" v-model="assignee" placeholder="Add assignee">
-            <input type="text" name="reporter" v-model="reporter" placeholder="Add reporter">
+            <input type="text" name="assignee" v-model="assignee" placeholder="Assignee username">
+            <input type="text" name="reporter" v-model="reporter" placeholder="Reporter username">
             <button class="add-task" type="submit">Add Task</button>
         </form>
     </div>

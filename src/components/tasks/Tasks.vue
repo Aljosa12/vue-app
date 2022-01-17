@@ -1,6 +1,6 @@
 <template>
 <div>
-        <input id="search-box" type="text" v-model="search" placeholder="Assignee name...">
+        <input id="search-box" type="text" v-model="search" placeholder="Assignee username...">
         <button id="btn-sort" @click="changeOrder()" type="button" >Sort <i class="arrow down"></i> <i class="arrow up"></i></button>
   <div class="container-wrapper">
         <div class="task" v-bind:key="task.id" v-for="task in tasksFilter">

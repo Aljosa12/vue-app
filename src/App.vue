@@ -112,7 +112,7 @@ export default {
       deep: true
     }
   },
-  mounted() {
+  beforeMount() {
   if (localStorage.getItem("tasks")){
     this.tasks = JSON.parse(localStorage.getItem("tasks"))
   } else {
@@ -148,73 +148,73 @@ export default {
     const initialTasks = [
         {
           id: 0,
-          topic: 'Go shopping',
-          description: 'shopp',
+          topic: 'Update page',
+          description: 'Description',
           assigneeID: 2,
           reporterID: 3
         },
         {
           id: 1,
-          topic: 'Go skydiving',
-          description: 'Sky',
+          topic: 'Change color',
+          description: 'Description change color',
           assigneeID: 2,
           reporterID: 1
         },
         {
           id: 2,
-          topic: 'Go shopping',
-          description: 'shopp',
+          topic: 'Update Logo',
+          description: 'Descripton for logo update',
           assigneeID: 0,
           reporterID: 2
         },
         {
           id: 3,
-          topic: 'Go skydiving',
-          description: 'Sky',
+          topic: 'Delete user tasks',
+          description: 'Description delete task',
           assigneeID: 1,
           reporterID: 2
         },
         {
           id: 4,
-          topic: 'Go shopping',
-          description: 'shopp',
+          topic: 'Edit taks',
+          description: 'Description edit tasks',
           assigneeID: 2,
           reporterID: 3
         },
         {
           id: 5,
-          topic: 'Go skydiving',
-          description: 'Sky',
+          topic: 'Update background',
+          description: 'update background opis',
           assigneeID: 0,
           reporterID: 2
         },
         {
           id: 6,
-          topic: 'Go shopping',
-          description: 'shopp',
+          topic: 'Update page favicon',
+          description: 'favicon opis',
           assigneeID: 1,
           reporterID: 0
         },
         {
           id: 7,
-          topic: 'Go skydiving',
-          description: 'Sky',
+          topic: 'Do tests on page',
+          description: 'Write automated tests',
           assigneeID: 3,
           reporterID: 1
         }
         ,
         {
           id: 8,
-          topic: 'Go skydiving',
-          description: 'Sky',
+          topic: 'Edit page header',
+          description: 'header opis',
           assigneeID: 0,
           reporterID: 1
         }
       ]
    
     localStorage.setItem('tasks', JSON.stringify(initialTasks))
+    location.reload();
   }
-
 }
 }
 </script>
