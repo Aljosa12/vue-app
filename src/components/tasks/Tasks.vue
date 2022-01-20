@@ -4,7 +4,7 @@
         <button id="btn-sort" @click="changeOrder()" type="button" >Sort <i class="arrow down"></i> <i class="arrow up"></i></button>
   <div class="container-wrapper">
         <div class="task" v-bind:key="task.id" v-for="task in tasksFilter">
-          <Task v-bind:task="task" v-on:del-task-item="deleteTask" v-on:show-task-info="showInfo" v-on:edit-task-item="editTask"></Task>
+          <Task v-bind:task="task" v-bind:users="users" v-on:del-task-item="deleteTask" v-on:show-task-info="showInfo" v-on:edit-task-item="editTask"></Task>
         </div>
     </div>
 
@@ -15,8 +15,6 @@
 
         <div class="modal-content">
           <span id="close-details" class="close">&times;</span>
-
-
             
     <div id="data-info">
       
@@ -36,13 +34,16 @@
 
     export default {
         name: "Tasks",
-        props: ["tasks"],
+        props: {
+          users: [], 
+          tasks: []
+        },
         components: {
           Task
         },
         data() {
         return {
-          search: '',
+          search: ''
         }
       },
         methods: {
@@ -55,10 +56,10 @@
           findTasksForUser(e) {
           e.preventDefault();
 
-          console.log(this.search)
           return this.tasks.filter(item => item.assignee === this.search)
         },
         changeOrder() {
+
           this.$emit('sort');
           },
           showInfo(task) {
@@ -68,7 +69,6 @@
 
               modal.style.display = "block";
 
-              this.users = JSON.parse(localStorage.getItem('users'))
               let reporter = this.users.find(user => user.id === task.reporterID);
               let assignee = this.users.find(user => user.id === task.assigneeID);
               
@@ -88,8 +88,7 @@
         },
         computed: {
       tasksFilter() {
-            let users = JSON.parse(localStorage.getItem('users'))
-            let assignee = users.find(user => user.username === this.search);
+            let assignee = this.users.find(user => user.username === this.search);
             if(assignee) {
               return this.tasks.filter(item => item.assigneeID === assignee.id)
               }
@@ -100,7 +99,8 @@
 
 </script>
 
-<style >
+<style>
+
   .container-wrapper {
     width: max-content;
     margin: auto;

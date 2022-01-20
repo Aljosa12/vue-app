@@ -25,32 +25,18 @@
 </template>
 
 <script>
-    // let container = document.getElementById('tasks-container');
-
-    // console.log(container)
-
-    // container.style.color = 'red';
 
     export default {
         name: "Task",
-        props: ["task"],
+        props: {
+          users: [], 
+          task: {}
+        },
         data () {
-             this.users = JSON.parse(localStorage.getItem('users'))
             this.tasks = JSON.parse(localStorage.getItem("tasks"))
 
-            return {
+            return {    
                 user: this.users.find(user => user.id === this.task.assigneeID)
-            }
-        },
-        methods: {
-            setNewData(bank) {
-                console.log('click', bank)
-            }, 
-            showAllInfo(id) {
-                console.log(id)
-                let net = document.getElementById("nets")
-                
-                net 
             }
         }
     }

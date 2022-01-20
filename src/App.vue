@@ -9,8 +9,18 @@
             <form>
             <input class="edit-input" type="text" name="topic" v-model="topic" placeholder="Add Task topic">
             <input class="edit-input" type="text" name="description" v-model="description" placeholder="Add description">
-            <input class="edit-input" type="text" name="assignee" v-model="assignee" placeholder="Add assignee">
-            <input class="edit-input" type="text" name="reporter" v-model="reporter" placeholder="Add reporter">
+            <select v-model="assignee" class="edit-input"> 
+                <option value="" disabled selected>Assignee username</option>
+                <option style="color: white;" v-for="(data) in users" :value="data.id" :key="data.id" >
+                    {{data.username}}
+                </option>
+            </select>
+            <select v-model="reporter" class="edit-input"> 
+                <option value="" disabled selected>Reporter username</option>
+                <option style="color: white;" v-for="(data) in users" :value="data.id" :key="data.id" >
+                    {{data.username}}
+                </option>
+            </select>
             <button id="btn-edit-task" >Edit Task</button>
             </form>
           </div>
@@ -24,7 +34,7 @@
     </div>
      
     <AddTask  v-on:add-task-event="addTask"/>
-    <Tasks v-bind:tasks="tasks" v-on:del-task-event="deleteTask" v-on:sort="changeOrder" v-on:edit-task-event="editTask"/>
+    <Tasks v-bind:tasks="tasks" v-bind:users="users" v-on:del-task-event="deleteTask" v-on:sort="changeOrder" v-on:edit-task-event="editTask"/>
     <h1 style="color: white;">This are today's tasks</h1>
   </div>
 </template>
@@ -43,10 +53,11 @@ export default {
     
     return {
       tasks: [],
+      users: [],
       topic: '',
       description: '',
       assignee: '',
-      reporter: '' 
+      reporter: ''
     }
   },
   methods: {
@@ -57,6 +68,7 @@ export default {
       this.tasks = this.tasks.filter(task => task.id !== id);
     },
     editTask(task) {
+
       const modal = document.getElementById("myModal2"),
        span = document.getElementById("close-edit"),
        btnEdit = document.getElementById("btn-edit-task");
@@ -73,23 +85,17 @@ export default {
       }
 
       btnEdit.addEventListener("click", ()=> {
-        this.users = JSON.parse(localStorage.getItem('users'))
-        let reporter = this.users.find(user => user.username === this.reporter);
-        let assignee = this.users.find(user => user.username === this.assignee);
 
         task.description = this.description;
         task.topic = this.topic;
-        task.assigneeID = assignee.id;
-        task.reporterID = reporter.id;
+        task.assigneeID = this.assignee;
+        task.reporterID = this.reporter;
 
       })  
 
     },
     changeOrder() {
             this.tasks = this.tasks.reverse();
-    },
-    editTaskData(e){
-      console.log(e)
     },
     editBookItemEvent(task){
       //find the index of this id's object
@@ -115,6 +121,7 @@ export default {
   beforeMount() {
   if (localStorage.getItem("tasks")){
     this.tasks = JSON.parse(localStorage.getItem("tasks"))
+    this.users = JSON.parse(localStorage.getItem("users"))
   } else {
     let users = [
         {
@@ -191,7 +198,7 @@ export default {
         {
           id: 6,
           topic: 'Update page favicon',
-          description: 'favicon opis',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
           assigneeID: 1,
           reporterID: 0
         },

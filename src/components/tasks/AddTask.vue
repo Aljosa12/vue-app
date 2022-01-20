@@ -3,26 +3,45 @@
         <form @submit="addTask">
             <input type="text" name="topic" v-model="topic" placeholder="Add Task topic">
             <input type="text" name="description" v-model="description" placeholder="Add description">
-            <input type="text" name="assignee" v-model="assignee" placeholder="Assignee username">
-            <input type="text" name="reporter" v-model="reporter" placeholder="Reporter username">
+            <!-- <input type="text" name="assignee" v-model="assignee" placeholder="Assignee username"> -->
+            <select v-model="assignee" > 
+                <option value="" disabled selected>Assignee username</option>
+                <option style="color: white;" v-for="(data) in users" :value="data.id" :key="data.id" >
+                    {{data.username}}
+                </option>
+            </select>
+            <select v-model="reporter" > 
+                <option value="" disabled selected>Reporter username</option>
+                <option style="color: white;" v-for="(data) in users" :value="data.id" :key="data.id" >
+                    {{data.username}}
+                </option>
+            </select>
+            <!-- <input type="text" name="reporter" v-model="reporter" placeholder="Reporter username"> -->
             <button class="add-task" type="submit">Add Task</button>
         </form>
+
+        <div class="form-group">
+            
+            <!-- <option v-for="data in users" value="user.id"{{ user.username }}></option> -->
+            
+        </div>
     </div>
+
 </template>
 
 <script>
     export default {
-        
         name: "Task",
         data () {
             return {
                 topic: '',
                 description: '',
                 assignee: '',
-                reporter: ''
+                reporter: '',
+                users: JSON.parse(localStorage.getItem('users'))
             }
         },
-        methods: {  
+        methods: { 
             addTask(e){
                 if(this.topic !== "") {
                     e.preventDefault();
@@ -30,17 +49,11 @@
                 let idNum = 0;  
 
                 this.tasks = JSON.parse(localStorage.getItem("tasks"))
-                this.users = JSON.parse(localStorage.getItem('users'))
 
-                console.log(this.users)
-
-                let reporter = this.users.find(user => user.username === this.reporter);
-                let assignee = this.users.find(user => user.username === this.assignee);
-
+                console.log(this.assignee, this.tasks)
 
                 // Get last id from array and set id +1
                 if (this.tasks.length !== 0) {
-                    console.log('555')
                     idNum = this.tasks[Object.keys(this.tasks)[Object.keys(this.tasks).length - 1]].id + 1
                 }
             
@@ -48,11 +61,10 @@
                 id: idNum,
                 topic: this.topic,
                 description: this.description,
-                assigneeID: assignee.id,
-                reporterID: reporter.id
+                assigneeID: this.assignee,
+                reporterID: this.reporter
                 }
 
-                
     
                 this.$emit('add-task-event', newTask);
             
@@ -73,6 +85,16 @@
       padding: 8px;
       color: white;
   }
+  select {
+      width: 200px;
+      margin-left: 6px;
+      background-color: #261b42;
+      border: none;
+      border-radius: 3px;
+      padding: 8px;
+      color: #68756D;
+  }
+
   .add-task {
       background-color: #3a6b35;
       color: white;
