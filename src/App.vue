@@ -1,63 +1,31 @@
 <template>
    <div id="app">
-     <div class="modal-wrapper" tabindex="-1" role="dialog">
-          <div id="myModal2" class="modal">
-
-        <div class="modal-content modal-edit">
-          <span id="close-edit" class="close">&times;</span>
-          <div style="margin-top: 30px;">
-            <form>
-            <input class="edit-input" type="text" name="topic" v-model="topic" placeholder="Add Task topic">
-            <input class="edit-input" type="text" name="description" v-model="description" placeholder="Add description">
-            <select v-model="assignee" class="edit-input"> 
-                <option value="" disabled selected>Assignee username</option>
-                <option style="color: white;" v-for="(data) in users" :value="data.id" :key="data.id" >
-                    {{data.username}}
-                </option>
-            </select>
-            <select v-model="reporter" class="edit-input"> 
-                <option value="" disabled selected>Reporter username</option>
-                <option style="color: white;" v-for="(data) in users" :value="data.id" :key="data.id" >
-                    {{data.username}}
-                </option>
-            </select>
-            <button id="btn-edit-task" >Edit Task</button>
-            </form>
-          </div>
-          
-        </div>
-
-        </div>
-    </div>
-    <div>
-        
-    </div>
-     
+  
+    <EditTask v-on:edit-task="saveEditedTask"/>
     <AddTask  v-on:add-task-event="addTask"/>
     <Tasks v-bind:tasks="tasks" v-bind:users="users" v-on:del-task-event="deleteTask" v-on:sort="changeOrder" v-on:edit-task-event="editTask"/>
     <h1 style="color: white;">This are today's tasks</h1>
+
   </div>
 </template>
 
 <script>
 import Tasks from './components/tasks/Tasks'
 import AddTask from './components/tasks/AddTask'
+import EditTask from './components/tasks/EditTask'
 
 export default {
   name: 'App',
   components: {
     Tasks,
-    AddTask
+    AddTask,
+    EditTask
   },
   data () {
-    
     return {
       tasks: [],
       users: [],
-      topic: '',
-      description: '',
-      assignee: '',
-      reporter: ''
+      task: {}
     }
   },
   methods: {
@@ -67,36 +35,33 @@ export default {
     deleteTask(id){
       this.tasks = this.tasks.filter(task => task.id !== id);
     },
+    saveEditedTask(value) {
+        this.task.description = value.description;
+        this.task.topic = value.topic;
+        this.task.assigneeID = value.assigneeID;
+        this.task.reporterID = value.reporterID;
+    },
     editTask(task) {
+      this.task = task
 
       const modal = document.getElementById("myModal2"),
-       span = document.getElementById("close-edit"),
-       btnEdit = document.getElementById("btn-edit-task");
+       span = document.getElementById("close-edit");
 
       modal.style.display = "block";
       span.onclick = function() {
           modal.style.display = "none";
       }
-      window.onclick = function(event) {
 
+      window.onclick = function(event) {
           if (event.target == modal) {
            modal.style.display = "none";
         }
-      }
-
-      btnEdit.addEventListener("click", ()=> {
-
-        task.description = this.description;
-        task.topic = this.topic;
-        task.assigneeID = this.assignee;
-        task.reporterID = this.reporter;
-
-      })  
+      } 
 
     },
     changeOrder() {
-            this.tasks = this.tasks.reverse();
-    },
+      this.tasks = this.tasks.reverse();
+    }
   },
   watch: {
     tasks: {
@@ -104,13 +69,13 @@ export default {
         localStorage.setItem('tasks',JSON.stringify(this.tasks))
         },
       deep: true
-    },
-    users: {
-      handler() {
-        // localStorage.setItem('users',JSON.stringify(this.users))
-        },
-      deep: true
     }
+    // users: {
+    //   handler() {
+    //     // localStorage.setItem('users',JSON.stringify(this.users))
+    //     },
+    //   deep: true
+    // }
   },
   beforeMount() {
   if (localStorage.getItem("tasks")){
@@ -228,21 +193,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-#btn-edit-task {
-  display: block;
-  margin: auto;
-  width:320px;
-  margin-top: 6px;
-  margin-right: 15px;
-  height: 33px;
-  border: none;
-}
-.edit-input {
-  width:320px;
-  margin-top: 6px;
-}
-.modal-content {
-  background-color: #6548ad;
 }
 </style>

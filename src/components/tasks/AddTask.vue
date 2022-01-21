@@ -8,8 +8,6 @@
                 <option value="" disabled selected>Assignee username</option>
                 <option style="color: white;" v-for="(data) in users" :value="data.id" :key="data.id" >
                     {{data.username}}
-                    {{data.username}}
-
                 </option>
             </select>
             <select v-model="reporter" > 
