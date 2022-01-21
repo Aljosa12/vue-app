@@ -97,12 +97,6 @@ export default {
     changeOrder() {
             this.tasks = this.tasks.reverse();
     },
-    editBookItemEvent(task){
-      //find the index of this id's object
-      let objIndex = this.tasks.findIndex(obj => obj.id === task.id)
-      //update the item
-      this.tasks[objIndex].title = task.title;
-    }
   },
   watch: {
     tasks: {
