@@ -14,6 +14,7 @@ import Tasks from './components/tasks/Tasks'
 import AddTask from './components/tasks/AddTask'
 import EditTask from './components/tasks/EditTask'
 
+
 export default {
   name: 'App',
   components: {

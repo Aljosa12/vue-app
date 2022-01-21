@@ -63,8 +63,6 @@
           this.$emit('sort');
           },
           showInfo(task) {
-              console.log(task)
-
 
               const modal = document.getElementById("myModal"),
                info = document.getElementById("data-info"),
